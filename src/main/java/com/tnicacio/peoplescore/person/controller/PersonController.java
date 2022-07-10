@@ -1,5 +1,6 @@
 package com.tnicacio.peoplescore.person.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.tnicacio.peoplescore.person.dto.PersonDTO;
 import com.tnicacio.peoplescore.person.service.PersonService;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +34,9 @@ public class PersonController {
     }
 
     @GetMapping(value = "/{id}")
+    @JsonView(PersonDTO.PersonView.PersonDetailsView.class)
     public ResponseEntity<PersonDTO> findById(@PathVariable Long id) {
         var personDTO = personService.findById(id);
-//        personDTO.add(linkTo(methodOn(PersonController.class).findById(personDTO.getId())).withSelfRel());
         return ResponseEntity.ok().body(personDTO);
     }
 

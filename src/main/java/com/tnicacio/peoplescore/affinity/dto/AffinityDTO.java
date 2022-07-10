@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +28,7 @@ public class AffinityDTO {
     private String region;
 
     @JsonProperty("estados")
+    @NotEmpty
     private final Set<String> states = new HashSet<>();
 
     public AffinityDTO(AffinityModel affinityModel) {

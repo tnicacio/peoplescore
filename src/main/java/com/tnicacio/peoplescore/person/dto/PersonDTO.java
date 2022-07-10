@@ -62,7 +62,7 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
 
     @JsonProperty(value = "estados", access = JsonProperty.Access.READ_ONLY)
     @JsonView(PersonView.PersonDetailsView.class)
-    private Set<String> affinityStates = new HashSet<>();
+    private final Set<String> affinityStates = new HashSet<>();
 
     @JsonProperty("nome")
     public void setName(String name) {
