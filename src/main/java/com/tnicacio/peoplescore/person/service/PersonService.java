@@ -10,6 +10,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class PersonService {
 
@@ -17,7 +19,8 @@ public class PersonService {
     private final ScoreService scoreService;
     private final AffinityService affinityService;
 
-    public PersonService(PersonRepository personRepository, ScoreService scoreService, AffinityService affinityService) {
+    public PersonService(PersonRepository personRepository, ScoreService scoreService,
+                         AffinityService affinityService) {
         this.personRepository = personRepository;
         this.scoreService = scoreService;
         this.affinityService = affinityService;
@@ -36,9 +39,11 @@ public class PersonService {
         PersonModel personModel = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Person not found"));
         String scoreDescription = scoreService.findScoreDescription(personModel.getScore());
+        List<String> stateAbbreviationList = affinityService.findStateAbbreviationListByRegion(personModel.getRegion());
 
         PersonDTO personDTO = new PersonDTO(personModel);
         personDTO.setScoreDescription(scoreDescription);
+        personDTO.getAffinityStates().addAll(stateAbbreviationList);
         return personDTO;
     }
 }

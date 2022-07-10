@@ -28,7 +28,7 @@ public class AffinityDTO {
     private String region;
 
     @JsonProperty("estados")
-    @NotEmpty
+    @NotEmpty(message = "A lista de estados não pode ser vazia")
     private final Set<String> states = new HashSet<>();
 
     public AffinityDTO(AffinityModel affinityModel) {

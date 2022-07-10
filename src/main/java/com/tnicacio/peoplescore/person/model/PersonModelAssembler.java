@@ -2,7 +2,6 @@ package com.tnicacio.peoplescore.person.model;
 
 import com.tnicacio.peoplescore.person.controller.PersonController;
 import com.tnicacio.peoplescore.person.dto.PersonDTO;
-import com.tnicacio.peoplescore.person.model.PersonModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;

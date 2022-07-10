@@ -3,7 +3,6 @@ package com.tnicacio.peoplescore.user.model;
 import com.tnicacio.peoplescore.role.model.RoleModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 

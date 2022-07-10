@@ -2,7 +2,6 @@ package com.tnicacio.peoplescore.event;
 
 import com.tnicacio.peoplescore.exception.event.LoginException;
 import com.tnicacio.peoplescore.exception.event.PostScoreException;
-import com.tnicacio.peoplescore.score.controller.ScoreController;
 import com.tnicacio.peoplescore.score.dto.ScoreDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,12 +35,9 @@ public class AppEvents {
     @Value("${security.oauth2.client.client-secret}")
     String clientSecret;
 
-    private WebClient webClient;
+    private final WebClient webClient;
 
-    private final ScoreController scoreController;
-
-    public AppEvents(ScoreController scoreController) {
-        this.scoreController = scoreController;
+    public AppEvents() {
         webClient = WebClient.create("http://localhost:8080");
     }
 
@@ -52,13 +48,10 @@ public class AppEvents {
     }
 
     private List<ScoreDTO> getDefaultScores() {
-        ScoreDTO insufficient =
-                ScoreDTO.builder().description("Insuficiente").initialScore(0L).finalScore(200L).build();
-        ScoreDTO unacceptable =
-                ScoreDTO.builder().description("Inaceitável").initialScore(201L).finalScore(500L).build();
+        ScoreDTO insufficient = ScoreDTO.builder().description("Insuficiente").initialScore(0L).finalScore(200L).build();
+        ScoreDTO unacceptable = ScoreDTO.builder().description("Inaceitável").initialScore(201L).finalScore(500L).build();
         ScoreDTO acceptable = ScoreDTO.builder().description("Aceitável").initialScore(501L).finalScore(700L).build();
-        ScoreDTO recommendable =
-                ScoreDTO.builder().description("Recomendável").initialScore(701L).finalScore(1000L).build();
+        ScoreDTO recommendable = ScoreDTO.builder().description("Recomendável").initialScore(701L).finalScore(1000L).build();
         return List.of(insufficient, unacceptable, acceptable, recommendable);
     }
 
