@@ -28,40 +28,46 @@ import java.util.Set;
 public class PersonDTO extends RepresentationModel<PersonDTO> {
 
     public interface PersonView {
-        interface PersonDetailsView {
+        interface DetailsGet {
+        }
+
+        interface RegistrationPost {
         }
     }
 
     @JsonIgnore
     private Long id;
 
-    @NotBlank(message = "O nome é obrigatório")
-    @JsonView(PersonView.PersonDetailsView.class)
+    @NotBlank(message = "O nome é obrigatório", groups = PersonView.RegistrationPost.class)
+    @JsonView({PersonView.DetailsGet.class, PersonView.RegistrationPost.class})
     private String name;
 
-    @JsonView(PersonView.PersonDetailsView.class)
+    @JsonView({PersonView.DetailsGet.class, PersonView.RegistrationPost.class})
     private String phone;
 
-    @JsonView(PersonView.PersonDetailsView.class)
+    @JsonView({PersonView.DetailsGet.class, PersonView.RegistrationPost.class})
     private String age;
 
+    @JsonView(PersonView.RegistrationPost.class)
     private String city;
 
+    @JsonView(PersonView.RegistrationPost.class)
     private String state;
 
-    @NotNull(message = "O score é obrigatório")
-    @PositiveOrZero(message = "O score deve ser um valor positivo")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotNull(message = "O score é obrigatório", groups = PersonView.RegistrationPost.class)
+    @PositiveOrZero(message = "O score deve ser um valor positivo", groups = PersonView.RegistrationPost.class)
+    @JsonView(PersonView.RegistrationPost.class)
     private Long score;
 
+    @JsonView(PersonView.RegistrationPost.class)
     private String region;
 
     @JsonProperty(value = "scoreDescricao", access = JsonProperty.Access.READ_ONLY)
-    @JsonView(PersonView.PersonDetailsView.class)
+    @JsonView(PersonView.DetailsGet.class)
     private String scoreDescription;
 
     @JsonProperty(value = "estados", access = JsonProperty.Access.READ_ONLY)
-    @JsonView(PersonView.PersonDetailsView.class)
+    @JsonView(PersonView.DetailsGet.class)
     private final Set<String> affinityStates = new HashSet<>();
 
     @JsonProperty("nome")
@@ -95,6 +101,7 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
     }
 
     public PersonDTO(PersonModel personModel) {
+        this.id = personModel.getId();
         this.name = personModel.getName();
         this.phone = personModel.getPhone();
         this.age = personModel.getAge();

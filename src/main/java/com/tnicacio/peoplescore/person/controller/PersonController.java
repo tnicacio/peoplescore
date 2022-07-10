@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.tnicacio.peoplescore.person.dto.PersonDTO;
 import com.tnicacio.peoplescore.person.service.PersonService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -26,7 +26,9 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonDTO> insert(@Valid @RequestBody PersonDTO dto) {
+    @JsonView(PersonDTO.PersonView.RegistrationPost.class)
+    public ResponseEntity<PersonDTO> insert(@RequestBody @Validated(PersonDTO.PersonView.RegistrationPost.class)
+                                            @JsonView(PersonDTO.PersonView.RegistrationPost.class) PersonDTO dto) {
         dto = personService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -34,7 +36,7 @@ public class PersonController {
     }
 
     @GetMapping(value = "/{id}")
-    @JsonView(PersonDTO.PersonView.PersonDetailsView.class)
+    @JsonView(PersonDTO.PersonView.DetailsGet.class)
     public ResponseEntity<PersonDTO> findById(@PathVariable Long id) {
         var personDTO = personService.findById(id);
         return ResponseEntity.ok().body(personDTO);
