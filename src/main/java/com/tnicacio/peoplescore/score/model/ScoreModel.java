@@ -28,10 +28,10 @@ public class ScoreModel implements Serializable {
     @Column(name = "descricao", nullable = false, unique = true)
     private String description;
 
-    @Column(name = "inicial", nullable = false)
+    @Column(name = "inicial", nullable = false, unique = true)
     private Long initialScore;
 
-    @Column(name = "final", nullable = false)
+    @Column(name = "final", nullable = false, unique = true)
     private Long finalScore;
 
     @Override

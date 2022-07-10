@@ -1,5 +1,6 @@
 package com.tnicacio.peoplescore.score.service;
 
+import com.tnicacio.peoplescore.exception.service.ResourceNotFoundException;
 import com.tnicacio.peoplescore.score.dto.ScoreDTO;
 import com.tnicacio.peoplescore.score.model.ScoreModel;
 import com.tnicacio.peoplescore.score.repository.ScoreRepository;
@@ -22,5 +23,11 @@ public class ScoreService {
         BeanUtils.copyProperties(scoreDTO, scoreModel);
         scoreRepository.save(scoreModel);
         return new ScoreDTO(scoreModel);
+    }
+
+    @Transactional(readOnly = true)
+    public String findScoreDescription(Long score) {
+        return scoreRepository.findScoreDescriptionByScore(score)
+                .orElseThrow(() -> new ResourceNotFoundException("Description not found for score " + score));
     }
 }

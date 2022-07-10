@@ -1,19 +1,22 @@
 package com.tnicacio.peoplescore.person.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.tnicacio.peoplescore.person.model.PersonModel;
+import com.tnicacio.peoplescore.state.dto.StateDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -24,14 +27,21 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PersonDTO extends RepresentationModel<PersonDTO> {
 
+    public interface PersonView {
+        interface PersonDetailsView {}
+    }
+
     @JsonIgnore
     private Long id;
 
     @NotBlank(message = "O nome é obrigatório")
+    @JsonView(PersonView.PersonDetailsView.class)
     private String name;
 
+    @JsonView(PersonView.PersonDetailsView.class)
     private String phone;
 
+    @JsonView(PersonView.PersonDetailsView.class)
     private String age;
 
     private String city;
@@ -40,9 +50,17 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
 
     @NotNull(message = "O score é obrigatório")
     @PositiveOrZero(message = "O score deve ser um valor positivo")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long score;
 
     private String region;
+
+    @JsonProperty(value = "scoreDescricao",access = JsonProperty.Access.READ_ONLY)
+    private String scoreDescription;
+
+    @JsonProperty(value = "estados",access = JsonProperty.Access.READ_ONLY)
+    @JsonView(PersonView.PersonDetailsView.class)
+    private List<StateDTO> affinityStates;
 
     @JsonProperty("nome")
     public void setName(String name) {
