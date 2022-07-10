@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.tnicacio.peoplescore.person.model.PersonModel;
-import com.tnicacio.peoplescore.state.dto.StateDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +15,9 @@ import org.springframework.hateoas.RepresentationModel;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,7 +28,8 @@ import java.util.Objects;
 public class PersonDTO extends RepresentationModel<PersonDTO> {
 
     public interface PersonView {
-        interface PersonDetailsView {}
+        interface PersonDetailsView {
+        }
     }
 
     @JsonIgnore
@@ -55,12 +56,13 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
 
     private String region;
 
-    @JsonProperty(value = "scoreDescricao",access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "scoreDescricao", access = JsonProperty.Access.READ_ONLY)
+    @JsonView(PersonView.PersonDetailsView.class)
     private String scoreDescription;
 
-    @JsonProperty(value = "estados",access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "estados", access = JsonProperty.Access.READ_ONLY)
     @JsonView(PersonView.PersonDetailsView.class)
-    private List<StateDTO> affinityStates;
+    private Set<String> affinityStates = new HashSet<>();
 
     @JsonProperty("nome")
     public void setName(String name) {

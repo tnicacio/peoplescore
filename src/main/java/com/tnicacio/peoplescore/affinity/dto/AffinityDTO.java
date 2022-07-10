@@ -40,12 +40,4 @@ public class AffinityDTO {
         this.region = region;
     }
 
-//    @JsonProperty("estados")
-//    public void setStates(Set<String> abbreviations) {
-//        this.states.addAll(abbreviations);
-//    }
-
-    public Set<String> getStates() {
-        return states;
-    }
 }
