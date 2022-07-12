@@ -3,48 +3,49 @@ package com.tnicacio.peoplescore.affinity.service;
 import com.tnicacio.peoplescore.affinity.dto.AffinityDTO;
 import com.tnicacio.peoplescore.affinity.model.AffinityModel;
 import com.tnicacio.peoplescore.affinity.repository.AffinityRepository;
-import com.tnicacio.peoplescore.state.dto.StateDTO;
-import com.tnicacio.peoplescore.state.model.StateModel;
+import com.tnicacio.peoplescore.util.converter.Converter;
+import lombok.AccessLevel;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import javax.validation.Valid;
+
+import static com.tnicacio.peoplescore.config.caching.CachingConfig.AFFINITY_REGION_CACHE;
 
 @Service
+@Setter(onMethod_ = @Autowired)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AffinityService {
 
-    private final AffinityRepository affinityRepository;
+    AffinityRepository affinityRepository;
+    Converter<AffinityModel, AffinityDTO> affinityConverter;
 
-    public AffinityService(AffinityRepository affinityRepository) {
-        this.affinityRepository = affinityRepository;
-    }
+    @Qualifier(AFFINITY_REGION_CACHE)
+    CacheManager cacheManager;
 
     @Transactional
-    public AffinityDTO insert(AffinityDTO affinityDTO) {
-        final AffinityModel affinityModel = new AffinityModel();
-        final Set<StateModel> states = affinityDTO.getStates().stream()
-                .map(abbreviation -> {
-                    StateModel stateModel = new StateModel();
-                    stateModel.setAbbreviation(abbreviation);
-                    stateModel.setAffinity(affinityModel);
-                    return stateModel;
-                })
-                .collect(Collectors.toUnmodifiableSet());
-        affinityModel.setId(affinityDTO.getId());
-        affinityModel.setRegion(affinityDTO.getRegion());
-        affinityModel.getStates().addAll(states);
-
+    public AffinityDTO insert(@Valid AffinityDTO affinityDTO) {
+        AffinityModel affinityModel = affinityConverter.toModel(affinityDTO);
         affinityRepository.save(affinityModel);
-        return new AffinityDTO(affinityModel);
+        evictCacheIfRegionPresent(affinityModel.getRegion());
+        return affinityConverter.toDTO(affinityModel);
     }
 
-    @Transactional(readOnly = true)
-    public List<String> findStateAbbreviationListByRegion(String region) {
-        return affinityRepository.findStatesByRegion(region)
-                .stream()
-                .map(StateDTO::getAbbreviation)
-                .collect(Collectors.toList());
+    public boolean validateRegion(String region) {
+        return !affinityRepository.existsByRegion(region);
     }
+
+    private void evictCacheIfRegionPresent(String region) {
+        Cache affinityRegionCache = cacheManager.getCache(AFFINITY_REGION_CACHE);
+        if (affinityRegionCache != null) {
+            affinityRegionCache.evictIfPresent(region);
+        }
+    }
+
 }

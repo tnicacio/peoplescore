@@ -2,6 +2,10 @@ package com.tnicacio.peoplescore.affinity.controller;
 
 import com.tnicacio.peoplescore.affinity.dto.AffinityDTO;
 import com.tnicacio.peoplescore.affinity.service.AffinityService;
+import lombok.AccessLevel;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,13 +18,11 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/afinidade")
+@Setter(onMethod_ = @Autowired)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AffinityController {
 
-    private final AffinityService affinityService;
-
-    public AffinityController(AffinityService affinityService) {
-        this.affinityService = affinityService;
-    }
+    AffinityService affinityService;
 
     @PostMapping
     public ResponseEntity<AffinityDTO> insert(@Valid @RequestBody AffinityDTO dto) {

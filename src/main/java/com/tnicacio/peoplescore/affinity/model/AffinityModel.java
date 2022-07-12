@@ -30,7 +30,7 @@ public class AffinityModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "regiao")
+    @Column(name = "regiao", unique = true, nullable = false)
     private String region;
 
     @OneToMany(mappedBy = "affinity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tnicacio.peoplescore.score.model.ScoreModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,10 +49,4 @@ public class ScoreDTO {
         this.finalScore = finalScore;
     }
 
-    public ScoreDTO(ScoreModel scoreModel) {
-        this.id = scoreModel.getId();
-        this.description = scoreModel.getDescription();
-        this.initialScore = scoreModel.getInitialScore();
-        this.finalScore = scoreModel.getFinalScore();
-    }
 }

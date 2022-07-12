@@ -1,9 +1,9 @@
-package com.tnicacio.peoplescore.exception;
+package com.tnicacio.peoplescore.exception.handler;
 
+import com.tnicacio.peoplescore.exception.DatabaseException;
+import com.tnicacio.peoplescore.exception.ResourceNotFoundException;
 import com.tnicacio.peoplescore.exception.dto.StandardError;
 import com.tnicacio.peoplescore.exception.dto.ValidationError;
-import com.tnicacio.peoplescore.exception.service.DatabaseException;
-import com.tnicacio.peoplescore.exception.service.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +42,7 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
         ValidationError err = new ValidationError();
@@ -51,11 +51,9 @@ public class ResourceExceptionHandler {
         err.setError("Validation exception");
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
-
         for (FieldError f : e.getBindingResult().getFieldErrors()) {
             err.addError(f.getField(), f.getDefaultMessage());
         }
-
         return ResponseEntity.status(status).body(err);
     }
 

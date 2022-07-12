@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.tnicacio.peoplescore.person.model.PersonModel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,18 +29,16 @@ import java.util.Set;
 public class PersonDTO extends RepresentationModel<PersonDTO> {
 
     public interface PersonView {
-        interface DetailsGet {
-        }
-
-        interface RegistrationPost {
-        }
+        interface RegistrationPost {}
+        interface DetailsGet {}
+        interface ListGet {}
     }
 
     @JsonIgnore
     private Long id;
 
     @NotBlank(message = "O nome é obrigatório", groups = PersonView.RegistrationPost.class)
-    @JsonView({PersonView.DetailsGet.class, PersonView.RegistrationPost.class})
+    @JsonView({PersonView.DetailsGet.class, PersonView.RegistrationPost.class, PersonView.ListGet.class})
     private String name;
 
     @JsonView({PersonView.DetailsGet.class, PersonView.RegistrationPost.class})
@@ -48,14 +47,15 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
     @JsonView({PersonView.DetailsGet.class, PersonView.RegistrationPost.class})
     private String age;
 
-    @JsonView(PersonView.RegistrationPost.class)
+    @JsonView({PersonView.RegistrationPost.class, PersonView.ListGet.class})
     private String city;
 
-    @JsonView(PersonView.RegistrationPost.class)
+    @JsonView({PersonView.RegistrationPost.class, PersonView.ListGet.class})
     private String state;
 
     @NotNull(message = "O score é obrigatório", groups = PersonView.RegistrationPost.class)
-    @PositiveOrZero(message = "O score deve ser um valor positivo", groups = PersonView.RegistrationPost.class)
+    @PositiveOrZero(message = "O score deve ser um valor maior ou igual a zero",
+            groups = PersonView.RegistrationPost.class)
     @JsonView(PersonView.RegistrationPost.class)
     private Long score;
 
@@ -63,11 +63,11 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
     private String region;
 
     @JsonProperty(value = "scoreDescricao", access = JsonProperty.Access.READ_ONLY)
-    @JsonView(PersonView.DetailsGet.class)
+    @JsonView({PersonView.DetailsGet.class, PersonView.ListGet.class})
     private String scoreDescription;
 
     @JsonProperty(value = "estados", access = JsonProperty.Access.READ_ONLY)
-    @JsonView(PersonView.DetailsGet.class)
+    @JsonView({PersonView.DetailsGet.class, PersonView.ListGet.class})
     private final Set<String> affinityStates = new HashSet<>();
 
     @JsonProperty("nome")
@@ -98,17 +98,6 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
     @JsonProperty("regiao")
     public void setRegion(String region) {
         this.region = region;
-    }
-
-    public PersonDTO(PersonModel personModel) {
-        this.id = personModel.getId();
-        this.name = personModel.getName();
-        this.phone = personModel.getPhone();
-        this.age = personModel.getAge();
-        this.city = personModel.getCity();
-        this.state = personModel.getState();
-        this.score = personModel.getScore();
-        this.region = personModel.getRegion();
     }
 
     @Override

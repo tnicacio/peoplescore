@@ -3,6 +3,10 @@ package com.tnicacio.peoplescore.score.controller;
 
 import com.tnicacio.peoplescore.score.dto.ScoreDTO;
 import com.tnicacio.peoplescore.score.service.ScoreService;
+import lombok.AccessLevel;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,13 +19,11 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/score")
+@Setter(onMethod_ = @Autowired)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ScoreController {
 
-    private final ScoreService scoreService;
-
-    public ScoreController(ScoreService scoreService) {
-        this.scoreService = scoreService;
-    }
+    ScoreService scoreService;
 
     @PostMapping
     public ResponseEntity<ScoreDTO> insert(@Valid @RequestBody ScoreDTO dto) {

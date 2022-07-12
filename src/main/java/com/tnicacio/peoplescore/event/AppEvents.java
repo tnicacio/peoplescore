@@ -1,7 +1,7 @@
 package com.tnicacio.peoplescore.event;
 
-import com.tnicacio.peoplescore.exception.event.LoginException;
-import com.tnicacio.peoplescore.exception.event.PostScoreException;
+import com.tnicacio.peoplescore.exception.EventException;
+import com.tnicacio.peoplescore.exception.factory.ExceptionFactory;
 import com.tnicacio.peoplescore.score.dto.ScoreDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,36 +15,41 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Component
 public class AppEvents {
 
     private static final Logger logger = LoggerFactory.getLogger(AppEvents.class);
 
-    @Value("${client.default.username}")
+    @Value("${client.super.username}")
     private String defaultUsername;
-    @Value("${client.default.password}")
+    @Value("${client.super.password}")
     private String defaultPassword;
     @Value("${security.oauth2.client.client-id}")
-    String clientId;
+    private String clientId;
     @Value("${security.oauth2.client.client-secret}")
-    String clientSecret;
+    private String clientSecret;
 
     private final WebClient webClient;
+    private final ExceptionFactory exceptionFactory;
 
-    public AppEvents() {
+    public AppEvents(ExceptionFactory exceptionFactory) {
+        this.exceptionFactory = exceptionFactory;
         webClient = WebClient.create("http://localhost:8080");
     }
 
     @EventListener(ApplicationReadyEvent.class)
     public void startApp() {
-        String token = login().block();
-        getDefaultScores().forEach(score -> postScore(score, token).subscribe());
+        Consumer<String> postScoreConsumer = (String token) -> Flux.fromIterable(getDefaultScores())
+                .flatMap(score -> postScore(score, token)).subscribe();
+        login().doOnSuccess(postScoreConsumer).subscribe();
     }
 
     private List<ScoreDTO> getDefaultScores() {
@@ -65,7 +70,8 @@ public class AppEvents {
                 .retrieve()
                 .bodyToMono(ScoreDTO.class)
                 .doOnSuccess(res -> logger.info("Added score {}", res.getDescription()))
-                .doOnError(PostScoreException::new);
+                .onErrorMap(throwable -> exceptionFactory
+                        .event("Post score failed with " + scoreDTO.getDescription(), throwable));
     }
 
     private Mono<String> login() {
@@ -83,10 +89,11 @@ public class AppEvents {
                 .retrieve()
                 .bodyToMono(DefaultOAuth2AccessToken.class)
                 .map(DefaultOAuth2AccessToken::getValue)
-                .doOnError(LoginException::new)
+                .onErrorMap(throwable -> new EventException("Login failed", throwable))
                 .retryWhen(Retry
-                        .backoff(3, Duration.ofSeconds(5))
-                        .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) -> new LoginException(retrySignal.failure()))
+                        .backoff(3, Duration.ofSeconds(2))
+                        .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) ->
+                                exceptionFactory.event("Login retries failed", retrySignal.failure()))
                 );
     }
 }

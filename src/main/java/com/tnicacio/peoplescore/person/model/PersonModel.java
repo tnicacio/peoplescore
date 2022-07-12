@@ -45,7 +45,7 @@ public class PersonModel implements Serializable {
     @Column(name = "regiao")
     private String region;
 
-    @Column(name = "score", nullable = false, columnDefinition = "integer default 0")
+    @Column(name = "score", nullable = false)
     private Long score;
 
     @Column(name = "dataInclusao", columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", updatable = false)

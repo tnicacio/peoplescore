@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AffinityRepository extends JpaRepository<AffinityModel, Long>, AffinityRepositoryCustom {
+public interface AffinityRepository extends JpaRepository<AffinityModel, Long> {
+
+    boolean existsByRegion(String region);
 }
