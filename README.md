@@ -44,7 +44,7 @@ Tendo como base os requisitos e premissas acima, utilizou-se:
 * [Caffeine](https://github.com/ben-manes/caffeine) para caching de requisições muito solicitadas e que possuem dados atualizados raramente,
 como é o caso do método `findStateAbbreviationListByRegion`.
 * [RestTemplate](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html) para fazer requisições http simples, como um POST, por exemplo.
-* [Swagger](https://swagger.io/) para documentação dos endpoints do serviço.
+* [Swagger](https://swagger.io/) utilizando a dependência springfox para documentação dos endpoints do serviço. Pode-se acessar a documentação ao iniciar o serviço e ir no endopoint ```[GET] /swagger-ui/index.html```
 * OAuth2 com JWT, para realizar a autenticação do usuário e verificar a autorização para utilização dos endpoints.
 
 
@@ -77,6 +77,8 @@ Dessa forma, você obterá o seu access_token no retorno da requisição.
 
 
 ### :octocat: Endpoints do serviço
+
+> Abaixo estão os endpoints que requerem autenticação do usuário.
 
 #### [POST] /pessoa
 * Payload para adição de uma pessoa: 
@@ -120,7 +122,7 @@ Dessa forma, você obterá o seu access_token no retorno da requisição.
 * Retorna 201 no sucesso da inclusão.
 
 #### [GET] /pessoa/{id}
-* Se o id for encontrado no banco, retorna a seguinte estrutura de dados:
+* Retornando a seguinte estrutura de dados:
 ```
 {
     "nome": "Fulano de Tal",
@@ -135,7 +137,7 @@ Dessa forma, você obterá o seu access_token no retorno da requisição.
     ]
 }
 ```
-* Se o id for encontrado no banco, retorna 200 OK, com a estrutura de dados.
+* Se o id for encontrado no banco, retorna 200 OK com a estrutura de dados acima.
 * Se o id não for encontrado, retorna 204 No Content.
 
 #### [GET] /pessoa/
@@ -159,3 +161,24 @@ Dessa forma, você obterá o seu access_token no retorno da requisição.
 ```
 * Se algum cadastro for encontrado no banco, retorna 200 OK, com a estrutura de dados acima.
 * Se o id não for encontrado, retorna 204 No Content.
+
+
+> Além dos endpoints implemenados acima, também tem-se os seguintes endpoints que não requerem autenticação:
+
+#### [POST] /oauth/token
+Para obtenção de um token de acesso aos endpoints acima.
+
+* Authorization:
+Type Basic Auth
+username: peoplescore
+password: peoplescore123
+
+* Body:
+Formato: x-www-form-urlencoded
+username: admin
+password: 123456
+grant_type: password
+
+#### [GET] /swagger-ui/index.html
+Para visualização da documentação dos endpoints utilizando o Swagger.
+
