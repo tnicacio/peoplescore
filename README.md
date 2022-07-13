@@ -48,7 +48,7 @@ como é o caso do método `findStateAbbreviationListByRegion`.
 * OAuth2 com JWT, para realizar a autenticação do usuário e verificar a autorização para utilização dos endpoints.
 
 
-### Como testar a aplicação?
+### :test_tube: Como testar a aplicação?
 
 Para testar, basta clonar o repositório, instalar as dependências e executar a aplicação via linha de comando ou utilizando o seu editor IntelliJ preferido.
 
@@ -71,7 +71,7 @@ grant_type: password
 ```
 Dessa forma, você obterá o seu access_token no retorno da requisição.
 
-### Vídeo contendo o passo-a-passo acima e também um exemplo de utilização do token obtido passando como Bearer Token nos demais endpoints da aplicação
+### :movie_camera: Vídeo contendo o passo-a-passo acima e também um exemplo de utilização do token obtido passando como Bearer Token nos demais endpoints da aplicação
 
 ![20220713_014134](https://user-images.githubusercontent.com/50798315/178652940-c599df1e-2bd0-4858-abbf-fd01f8d14f28.gif)
 
