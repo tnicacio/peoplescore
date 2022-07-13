@@ -168,17 +168,19 @@ Dessa forma, você obterá o seu access_token no retorno da requisição.
 #### [POST] /oauth/token
 Para obtenção de um token de acesso aos endpoints acima.
 
-* Authorization:
-Type Basic Auth
+* Header
+```
+Authorization Type Basic Auth
 username: peoplescore
 password: peoplescore123
-
-* Body:
+```
+* Body
+```
 Formato: x-www-form-urlencoded
 username: admin
 password: 123456
 grant_type: password
-
+```
 #### [GET] /swagger-ui/index.html
 Para visualização da documentação dos endpoints utilizando o Swagger.
 
