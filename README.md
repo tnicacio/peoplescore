@@ -184,3 +184,9 @@ grant_type: password
 #### [GET] /swagger-ui/index.html
 Para visualização da documentação dos endpoints utilizando o Swagger.
 
+### Sugestões de melhorias futuras
+* Utilizar uuid ao invés de identificadores incrementais para as entidades.
+* Criar perfis de dev e prod utilizando PostgreSQL.
+* Utilizar o Flyway para realizar as migrações do banco de dados.
+* Publicar a aplicação utilizando o heroku, por exemplo, apontando para o perfil prod.
+* Criar um microsserviço 'authuser' responsável pelo login e cadastro de usuários, e se comunicar com ele através de um message broker como o RabbitMQ.
