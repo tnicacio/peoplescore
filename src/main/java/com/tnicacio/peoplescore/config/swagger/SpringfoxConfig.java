@@ -95,6 +95,10 @@ public class SpringfoxConfig {
                 new ResponseBuilder()
                         .code("400")
                         .description("Bad Request")
+                        .build(),
+                new ResponseBuilder()
+                        .code("401")
+                        .description("Unauthorized")
                         .build()
         );
     }
