@@ -17,7 +17,7 @@ Para o desenvolvimento desse serviço, foram consideradas as premissas abaixo:
 * Documentar contratos REST usando Swagger;
 * Colocar autenticação com token JWT.
 
-### Lógica do serviço
+### :dna: Lógica do serviço
 
 * Na camada service, há a associação da região da afinidade com a região da pessoa, e o retorno da lista de estados correspondentes à região.
 * Na camada de serviços, foi feita a implementação para retornar o atributo scoreDescricao correspondente ao score encontrado entre <em>inicial</em> e <em>final</em>.
