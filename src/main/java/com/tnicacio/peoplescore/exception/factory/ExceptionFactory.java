@@ -3,6 +3,7 @@ package com.tnicacio.peoplescore.exception.factory;
 import com.tnicacio.peoplescore.exception.DatabaseException;
 import com.tnicacio.peoplescore.exception.EventException;
 import com.tnicacio.peoplescore.exception.ResourceNotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,4 +21,7 @@ public class ExceptionFactory {
         return new EventException(message, throwable);
     }
 
+    public UsernameNotFoundException usernameNotFound(String message) {
+        return new UsernameNotFoundException(message);
+    }
 }

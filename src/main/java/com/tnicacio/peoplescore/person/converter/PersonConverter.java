@@ -1,4 +1,4 @@
-package com.tnicacio.peoplescore.person.mapper;
+package com.tnicacio.peoplescore.person.converter;
 
 import com.tnicacio.peoplescore.person.dto.PersonDTO;
 import com.tnicacio.peoplescore.person.model.PersonModel;
@@ -12,14 +12,14 @@ public class PersonConverter implements Converter<PersonModel, PersonDTO> {
 
     @Override
     public PersonModel toModel(@NonNull PersonDTO dto) {
-        PersonModel personModel = new PersonModel();
+        final PersonModel personModel = new PersonModel();
         BeanUtils.copyProperties(dto, personModel);
         return personModel;
     }
 
     @Override
     public PersonDTO toDTO(@NonNull PersonModel model) {
-        PersonDTO dto = new PersonDTO();
+        final PersonDTO dto = new PersonDTO();
         BeanUtils.copyProperties(model, dto);
         return dto;
     }

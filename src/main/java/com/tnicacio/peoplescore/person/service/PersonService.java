@@ -1,6 +1,5 @@
 package com.tnicacio.peoplescore.person.service;
 
-import com.tnicacio.peoplescore.exception.ResourceNotFoundException;
 import com.tnicacio.peoplescore.exception.factory.ExceptionFactory;
 import com.tnicacio.peoplescore.person.dto.PersonDTO;
 import com.tnicacio.peoplescore.person.model.PersonModel;
@@ -31,17 +30,17 @@ public class PersonService {
 
     @Transactional
     public PersonDTO insert(PersonDTO personDTO) {
-        PersonModel personModel = personConverter.toModel(personDTO);
+        final PersonModel personModel = personConverter.toModel(personDTO);
         personRepository.save(personModel);
         return personConverter.toDTO(personModel);
     }
 
     @Transactional(readOnly = true)
     public PersonDTO findById(Long id) {
-        PersonModel personModel = personRepository.findById(id)
+        final PersonModel personModel = personRepository.findById(id)
                 .orElseThrow(() -> exceptionFactory.notFound("Pessoa não encontrada"));
 
-        PersonDTO personDTO = personConverter.toDTO(personModel);
+        final PersonDTO personDTO = personConverter.toDTO(personModel);
         findScoreDescriptionByScoreValueAndSetToPersonDTO(personModel.getScore(), personDTO);
         findStatesByPersonRegionAndSetToPersonDTO(personModel.getRegion(), personDTO);
         return personDTO;
@@ -59,12 +58,12 @@ public class PersonService {
     }
 
     private void findScoreDescriptionByScoreValueAndSetToPersonDTO(Long scoreValue, PersonDTO personDTO) {
-        String scoreDescription = scoreService.findScoreDescription(scoreValue);
+        final String scoreDescription = scoreService.findScoreDescription(scoreValue);
         personDTO.setScoreDescription(scoreDescription);
     }
 
     private PersonDTO findStatesByPersonRegionAndSetToPersonDTO(String personRegion, PersonDTO personDTO) {
-        List<String> stateList = stateService.findStateAbbreviationListByRegion(personRegion);
+        final List<String> stateList = stateService.findStateAbbreviationListByRegion(personRegion);
         personDTO.getAffinityStates().addAll(stateList);
         return personDTO;
     }

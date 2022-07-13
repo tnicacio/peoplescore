@@ -22,8 +22,10 @@ import java.util.List;
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**"};
-    private static final String[] ADMIN = {"/users/**"};
+    private static final String[] PUBLIC = {"/oauth/token", "/auth/**", "/h2-console/**"};
+    private static final String[] SWAGGER = {"/v2/api-docs", "/configuration/**",
+            "/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "/api-docs/**"};
+    private static final String[] ADMIN = {"/pessoa/**"};
 
     private final Environment env;
     private final JwtTokenStore tokenStore;
@@ -40,13 +42,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        // H2
         if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
             http.headers().frameOptions().disable();
         }
 
         http.authorizeRequests()
                 .antMatchers(PUBLIC).permitAll()
+                .antMatchers(SWAGGER).permitAll()
                 .antMatchers(ADMIN).hasRole("ADMIN")
                 .anyRequest().authenticated();
 

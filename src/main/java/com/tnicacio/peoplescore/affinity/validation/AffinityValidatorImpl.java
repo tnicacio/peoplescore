@@ -26,7 +26,7 @@ public class AffinityValidatorImpl implements ConstraintValidator<AffinityValida
 
     @Override
     public boolean isValid(AffinityDTO dto, ConstraintValidatorContext context) {
-        List<FieldMessage> list = new ArrayList<>();
+        final List<FieldMessage> list = new ArrayList<>();
         validateRegion(list, dto.getRegion());
         validateStates(list, dto.getStates());
 
@@ -39,14 +39,14 @@ public class AffinityValidatorImpl implements ConstraintValidator<AffinityValida
     }
 
     private void validateRegion(List<FieldMessage> errorList, String region) {
-        if (!affinityService.validateRegion(region)) {
+        if (!affinityService.regionValid(region)) {
             errorList.add(new FieldMessage("region", "Região já cadastrada"));
         }
     }
 
     private void validateStates(List<FieldMessage> errorList, Set<String> states) {
         if (!CollectionUtils.isEmpty(states) && !stateService.stateAbbreviationsValid(states)) {
-            String repeatedStates = states.stream()
+            final String repeatedStates = states.stream()
                     .filter(state -> stateService.existsByAbbreviation(state))
                     .collect(Collectors.joining(","));
             errorList.add(new FieldMessage("states", "Estados já cadastrados: [" + repeatedStates + "]"));

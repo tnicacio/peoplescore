@@ -10,13 +10,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Builder
@@ -26,7 +24,7 @@ import java.util.Set;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PersonDTO extends RepresentationModel<PersonDTO> {
+public class PersonDTO {
 
     public interface PersonView {
         interface RegistrationPost {}
@@ -37,7 +35,7 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
     @JsonIgnore
     private Long id;
 
-    @NotBlank(message = "O nome é obrigatório", groups = PersonView.RegistrationPost.class)
+    @NotBlank(message = "{validation.person_name_not_blank}", groups = PersonView.RegistrationPost.class)
     @JsonView({PersonView.DetailsGet.class, PersonView.RegistrationPost.class, PersonView.ListGet.class})
     private String name;
 
@@ -53,8 +51,8 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
     @JsonView({PersonView.RegistrationPost.class, PersonView.ListGet.class})
     private String state;
 
-    @NotNull(message = "O score é obrigatório", groups = PersonView.RegistrationPost.class)
-    @PositiveOrZero(message = "O score deve ser um valor maior ou igual a zero",
+    @NotNull(message = "{validation.person_score_not_null}", groups = PersonView.RegistrationPost.class)
+    @PositiveOrZero(message = "{validation.person_score_positive_or_zero}",
             groups = PersonView.RegistrationPost.class)
     @JsonView(PersonView.RegistrationPost.class)
     private Long score;
@@ -100,17 +98,4 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
         this.region = region;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        PersonDTO personDTO = (PersonDTO) o;
-        return Objects.equals(id, personDTO.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), id);
-    }
 }

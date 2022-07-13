@@ -18,7 +18,7 @@ public class AffinityConverter implements Converter<AffinityModel, AffinityDTO> 
         final AffinityModel affinityModel = new AffinityModel();
         final Set<StateModel> states = dto.getStates().stream()
                 .map(abbreviation -> {
-                    StateModel stateModel = new StateModel();
+                    final StateModel stateModel = new StateModel();
                     stateModel.setAbbreviation(abbreviation);
                     stateModel.setAffinity(affinityModel);
                     return stateModel;

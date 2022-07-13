@@ -2,6 +2,8 @@ package com.tnicacio.peoplescore.affinity.controller;
 
 import com.tnicacio.peoplescore.affinity.dto.AffinityDTO;
 import com.tnicacio.peoplescore.affinity.service.AffinityService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+@Api(tags = "Afinidade")
 @RestController
 @RequestMapping(value = "/afinidade")
 @Setter(onMethod_ = @Autowired)
@@ -24,10 +27,11 @@ public class AffinityController {
 
     AffinityService affinityService;
 
-    @PostMapping
+    @ApiOperation(value = "Insere uma afinidade")
+    @PostMapping(produces="application/json", consumes="application/json")
     public ResponseEntity<AffinityDTO> insert(@Valid @RequestBody AffinityDTO dto) {
         dto = affinityService.insert(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+        final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }

@@ -1,4 +1,4 @@
-INSERT INTO tb_user (id, username, password) VALUES (1, 'boblue', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (id, username, password) VALUES (1, 'admin', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 INSERT INTO tb_user (id, username, password) VALUES (2, 'greenleaf', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 
 INSERT INTO tb_role (id, authority) VALUES (1,'ROLE_ADMIN');

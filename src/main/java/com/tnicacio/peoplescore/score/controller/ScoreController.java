@@ -3,6 +3,8 @@ package com.tnicacio.peoplescore.score.controller;
 
 import com.tnicacio.peoplescore.score.dto.ScoreDTO;
 import com.tnicacio.peoplescore.score.service.ScoreService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+@Api( tags = "Score")
 @RestController
 @RequestMapping(value = "/score")
 @Setter(onMethod_ = @Autowired)
@@ -25,10 +28,11 @@ public class ScoreController {
 
     ScoreService scoreService;
 
-    @PostMapping
+    @ApiOperation(value = "Insere um score")
+    @PostMapping(produces="application/json", consumes="application/json")
     public ResponseEntity<ScoreDTO> insert(@Valid @RequestBody ScoreDTO dto) {
         dto = scoreService.insert(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+        final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }

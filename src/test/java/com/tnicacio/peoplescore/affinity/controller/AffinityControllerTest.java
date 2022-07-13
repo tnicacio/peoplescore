@@ -34,7 +34,7 @@ class AffinityControllerTest {
         AffinityService affinityService;
 
         @BeforeEach
-        public void setUp() {
+        void setUp() {
             openMocks(this);
         }
 

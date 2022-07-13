@@ -1,13 +1,11 @@
 package com.tnicacio.peoplescore.score.repository;
 
 import com.tnicacio.peoplescore.common.repository.CommonRepository;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 import static com.tnicacio.peoplescore.score.model.QScoreModel.scoreModel;
 
-@Component
 public class ScoreRepositoryCustomImpl extends CommonRepository implements ScoreRepositoryCustom {
 
     @Override

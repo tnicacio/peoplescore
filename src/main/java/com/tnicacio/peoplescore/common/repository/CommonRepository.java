@@ -5,10 +5,12 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+@Repository
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommonRepository {
 

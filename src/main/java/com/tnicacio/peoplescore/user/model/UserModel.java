@@ -4,7 +4,6 @@ import com.tnicacio.peoplescore.role.model.RoleModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +25,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserModel extends RepresentationModel<UserModel> implements Serializable {
+public class UserModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

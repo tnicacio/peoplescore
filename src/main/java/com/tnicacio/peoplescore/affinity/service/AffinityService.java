@@ -14,8 +14,6 @@ import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
-
 import static com.tnicacio.peoplescore.config.caching.CachingConfig.AFFINITY_REGION_CACHE;
 
 @Service
@@ -30,19 +28,19 @@ public class AffinityService {
     CacheManager cacheManager;
 
     @Transactional
-    public AffinityDTO insert(@Valid AffinityDTO affinityDTO) {
-        AffinityModel affinityModel = affinityConverter.toModel(affinityDTO);
+    public AffinityDTO insert(AffinityDTO affinityDTO) {
+        final AffinityModel affinityModel = affinityConverter.toModel(affinityDTO);
         affinityRepository.save(affinityModel);
         evictCacheIfRegionPresent(affinityModel.getRegion());
         return affinityConverter.toDTO(affinityModel);
     }
 
-    public boolean validateRegion(String region) {
+    public boolean regionValid(String region) {
         return !affinityRepository.existsByRegion(region);
     }
 
     private void evictCacheIfRegionPresent(String region) {
-        Cache affinityRegionCache = cacheManager.getCache(AFFINITY_REGION_CACHE);
+        final Cache affinityRegionCache = cacheManager.getCache(AFFINITY_REGION_CACHE);
         if (affinityRegionCache != null) {
             affinityRegionCache.evictIfPresent(region);
         }

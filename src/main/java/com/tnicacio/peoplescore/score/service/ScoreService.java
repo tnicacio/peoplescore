@@ -23,7 +23,7 @@ public class ScoreService {
 
     @Transactional
     public ScoreDTO insert(ScoreDTO scoreDTO) {
-        ScoreModel scoreModel = scoreConverter.toModel(scoreDTO);
+        final ScoreModel scoreModel = scoreConverter.toModel(scoreDTO);
         scoreRepository.save(scoreModel);
         return scoreConverter.toDTO(scoreModel);
     }
@@ -31,6 +31,6 @@ public class ScoreService {
     @Transactional(readOnly = true)
     public String findScoreDescription(Long score) {
         return scoreRepository.findScoreDescriptionByScore(score)
-                .orElseThrow(() -> exceptionFactory.notFound("Descrição não encontrada para o score " + score));
+                .orElseThrow(() -> exceptionFactory.notFound("Descrição não encontrada para o score: " + score));
     }
 }

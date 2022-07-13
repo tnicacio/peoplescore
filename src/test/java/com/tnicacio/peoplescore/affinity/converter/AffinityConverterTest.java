@@ -3,6 +3,7 @@ package com.tnicacio.peoplescore.affinity.converter;
 import com.tnicacio.peoplescore.affinity.dto.AffinityDTO;
 import com.tnicacio.peoplescore.affinity.model.AffinityModel;
 import com.tnicacio.peoplescore.state.model.StateModel;
+import com.tnicacio.peoplescore.test.builder.TestAffinityDTOBuilder;
 import com.tnicacio.peoplescore.test.util.TestRandomUtils;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -33,13 +34,14 @@ class AffinityConverterTest {
 
         @Test
         void shouldConvertFromDTOToModel() {
-            final AffinityDTO affinityDTO = TestRandomUtils.randomObject(AffinityDTO.class);
+            final AffinityDTO affinityDTO = TestAffinityDTOBuilder.builder().build();
 
             final AffinityModel result = affinityConverter.toModel(affinityDTO);
 
             assertThat(result.getId()).isEqualTo(affinityDTO.getId());
             assertThat(result.getRegion()).isEqualTo(affinityDTO.getRegion());
             assertThat(result.getStates().stream().map(StateModel::getAbbreviation)).containsExactlyInAnyOrderElementsOf(affinityDTO.getStates());
+            assertThat(result.getStates().stream().map(StateModel::getAffinity)).contains(result);
         }
     }
 

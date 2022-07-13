@@ -1,4 +1,4 @@
-package com.tnicacio.peoplescore.score.mapper;
+package com.tnicacio.peoplescore.score.converter;
 
 import com.tnicacio.peoplescore.score.dto.ScoreDTO;
 import com.tnicacio.peoplescore.score.model.ScoreModel;
@@ -17,14 +17,14 @@ public class ScoreConverter implements Converter<ScoreModel, ScoreDTO> {
 
     @Override
     public ScoreModel toModel(ScoreDTO dto) {
-        ScoreModel model = new ScoreModel();
+        final ScoreModel model = new ScoreModel();
         BeanUtils.copyProperties(dto, model);
         return model;
     }
 
     @Override
     public ScoreDTO toDTO(ScoreModel model) {
-        ScoreDTO dto = new ScoreDTO();
+        final ScoreDTO dto = new ScoreDTO();
         BeanUtils.copyProperties(model, dto);
         return dto;
     }
