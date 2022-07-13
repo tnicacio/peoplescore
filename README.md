@@ -1,6 +1,6 @@
 # :100: People Score
 
->People Score é uma API REST para realização do cadastro de pessoas com score e suas regiões de afinidade.
+>People Score é uma API REST para realização de cadastro de pessoas com score e suas regiões de afinidade.
 
 A api foi construída com base no DDD (Domain Driven Design), e possui atualmente uma cobertura de código de 86%, com testes
 cobrindo as camadas service, controller e repository (quando há querys customizadas).
