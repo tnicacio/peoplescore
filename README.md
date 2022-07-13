@@ -96,6 +96,7 @@ Dessa forma, você obterá o seu access_token no retorno da requisição.
 #### [POST] /afinidade
 * Payload para adição de uma afinidade:
 ```
+{
     "regiao": "sudeste",
     "estados": [
         "SP",
@@ -103,21 +104,25 @@ Dessa forma, você obterá o seu access_token no retorno da requisição.
         "MG",
         "ES"
     ]
+}
 ```
 * Retorna 201 no sucesso da inclusão.
 
 #### [POST] /score
 * Payload para adição de um score:
 ```
+{
     "scoreDescricao": "Insuficiente",
     "inicial": 0,
     "final": 200
+}
 ```
 * Retorna 201 no sucesso da inclusão.
 
 #### [GET] /pessoa/{id}
 * Se o id for encontrado no banco, retorna a seguinte estrutura de dados:
 ```
+{
     "nome": "Fulano de Tal",
     "telefone": "99 99999-9999",
     "idade": 99,
@@ -128,6 +133,7 @@ Dessa forma, você obterá o seu access_token no retorno da requisição.
         "MG",
         "ES"
     ]
+}
 ```
 * Se o id for encontrado no banco, retorna 200 OK, com a estrutura de dados.
 * Se o id não for encontrado, retorna 204 No Content.
