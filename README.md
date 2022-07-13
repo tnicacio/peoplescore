@@ -45,7 +45,7 @@ Tendo como base os requisitos e premissas acima, utilizou-se:
 como é o caso do método `findStateAbbreviationListByRegion`.
 * [RestTemplate](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html) para fazer requisições http simples, como um POST, por exemplo.
 * [Swagger](https://swagger.io/) utilizando a dependência springfox para documentação dos endpoints do serviço. Pode-se acessar a documentação ao iniciar o serviço e ir no endopoint ```[GET] /swagger-ui/index.html```
-* OAuth2 com JWT, para realizar a autenticação do usuário e verificar a autorização para utilização dos endpoints.
+* OAuth2 e JWT, para realizar a autenticação do usuário e verificar a autorização para utilização dos endpoints.
 
 
 ### :test_tube: Como testar a aplicação?
