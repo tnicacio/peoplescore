@@ -26,7 +26,7 @@ Para o desenvolvimento desse serviço, foram consideradas as premissas abaixo:
   |scoreDescricao | inicial | final |
   |---------------|---------|-------|
   |Insuficiente   |0        |200    |
-  |Inaceitável    |01       |500    |
+  |Inaceitável    |201      |500    |
   |Aceitável      |501      |700    |
   |Recomendável   |701      |1000   |
 
