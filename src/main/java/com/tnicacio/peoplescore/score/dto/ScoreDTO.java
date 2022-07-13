@@ -25,13 +25,13 @@ public class ScoreDTO {
     @JsonIgnore
     private Long id;
 
-    @NotBlank(message = "A descrição é obrigatória")
+    @NotBlank(message = "{validation.score_description_not_blank}")
     private String description;
 
-    @NotNull(message = "O valor inicial é obrigatório")
+    @NotNull(message = "{validation.score_initial_score_not_null}")
     private Long initialScore;
 
-    @NotNull(message = "O valor final é obrigatório")
+    @NotNull(message = "{validation.score_initial_score_not_null}")
     private Long finalScore;
 
     @JsonProperty("scoreDescricao")
