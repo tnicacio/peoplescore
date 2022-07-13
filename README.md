@@ -189,4 +189,3 @@ Para visualização da documentação dos endpoints utilizando o Swagger.
 * Criar perfis de dev e prod utilizando PostgreSQL.
 * Utilizar o Flyway para realizar as migrações do banco de dados.
 * Publicar a aplicação utilizando o heroku, por exemplo, apontando para o perfil prod.
-* Criar um microsserviço 'authuser' responsável pelo login e cadastro de usuários, e se comunicar com ele através de um message broker como o RabbitMQ.
