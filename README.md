@@ -52,7 +52,8 @@ como é o caso do método `findStateAbbreviationListByRegion`.
 
 Para testar, basta clonar o repositório, instalar as dependências e executar a aplicação via linha de comando ou utilizando o seu editor IntelliJ preferido.
 
-O servidor está configurado para rodar na porta padrão 8080. Logo, com a aplicação rodando, para se obter o token JWT pode-se enviar:
+O servidor está configurado para rodar na porta padrão 8080. E ao inicializar o serviço já é inserido um usuário admin. 
+Logo, com a aplicação rodando, para se obter o token JWT pode-se enviar:
 
 #### [POST] http://localhost:8080/oauth/token
 Header: 
