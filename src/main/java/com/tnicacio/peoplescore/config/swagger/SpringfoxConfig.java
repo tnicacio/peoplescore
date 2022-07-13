@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseBuilder;
@@ -20,7 +21,6 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration;
 import springfox.documentation.spring.web.plugins.Docket;
 
-import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -46,15 +46,12 @@ public class SpringfoxConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo(
-                "People Score API",
-                "Serviço para cadastro de pessoas com score e suas regiões de afinidade.",
-                "1.0",
-                null,
-                new Contact("Tiago Nicácio", "https://www.linkedin.com/in/tiagonic/", "nicacio.t92@gmail.com"),
-                null,
-                null,
-                Collections.emptyList());
+        return new ApiInfoBuilder()
+                .title("People Score API")
+                .description("Serviço para cadastro de pessoas com score e suas regiões de afinidade.")
+                .version("1.0")
+                .contact(new Contact("Tiago Nicácio", "https://www.linkedin.com/in/tiagonic/", "nicacio.t92@gmail.com"))
+                .build();
     }
 
     private ApiKey apiKey() {
